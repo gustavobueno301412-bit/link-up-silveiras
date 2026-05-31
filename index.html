@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧑🏾 Link Up Silveiras 👩🏻</title>
+    <style>
+        /* Estilos Originais do Gustavo */
+        .modal-detalhes-linkup {
+            display: none;
+            position: fixed;
+            z-index: 11000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-detalhes-content {
+            background: white;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            padding: 25px;
+            border-radius: 0;
+            position: relative;
+            max-height: 100vh;
+            overflow-y: auto;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .fechar-detalhes {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .btn-zap-modal {
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .btn-seguir-modal {
+            background: #44749d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .titulo-grade-fotos {
+            color: #44749d;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grade-fotos-gustavo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0 20px 0;
+            padding: 10px;
+            background: #f1f5f9;
+            border-radius: 15px;
+        }
+
+        .grade-fotos-gustavo img, .grade-fotos-gustavo video, .grade-fotos-gustavo iframe {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 10px;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: block;
+            cursor: pointer; /* Adicionado cursor de clique */
+        }
+       
+        .video-depo-box {
+            position: relative;
+            padding-bottom: 177%; /* Proporção 9:16 para Shorts */
+            height: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            grid-column: span 1; /* Garante que ocupem as colunas da grade */
+        }
+        .video-depo-box iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .vitrine .produto-card:first-child::after {
+            content: "👆";
+            position: absolute;
+            top: 95px;
+            right: -10px;
+            font-size: 30px;
+            background: white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            animation: cliqueAnim 1.5s infinite;
+            z-index: 20;
+        }
+
+        @keyframes cliqueAnim {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #c6d4e1; scroll-behavior: smooth; }
+        header { background: #44749d; padding: 25px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .titulo-app { color: #ffffff; font-size: 1.5rem; font-weight: bold; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .container { padding: 15px; max-width: 800px; margin: auto; }
+        .banner-container { width: 100%; height: 200px !important; border-radius: 20px; overflow: hidden; margin-bottom: 20px; background: #ffffff; position: relative; }
+        .banner-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.8s ease-in-out; }
+        .banner-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+       
+        .categorias { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 10px 0 20px; }
+        @media (max-width: 600px) {
+            .categorias { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 5px !important; }
+            .cat-btn { max-width: 100% !important; padding: 10px 2px !important; font-size: 0.60rem !important; border-radius: 10px !important; }
+        }
+
+        .cat-btn { background: white; padding: 10px 15px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; color: #44749d; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; flex: 1 1 auto; text-align: center; transition: 0.3s; }
+        .cat-btn.active { background: #44749d !important; color: white !important; }
+        .busca-input { width: 100%; padding: 15px; border-radius: 30px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; outline: none; box-sizing: border-box; margin-bottom: 20px; }
+        .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .produto-card { background: white; border-radius: 20px; padding: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .selo-destaque { position: absolute; top: 10px; left: 10px; background: #ff0000; color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 8px; border-radius: 5px; z-index: 5; }
+        .btn-ws-card { position: absolute; top: 10px; right: 10px; background: #44749d; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+        .btn-ws-card img { width: 18px; height: 18px; }
+        .img-produto { width: 100%; height: 130px; object-fit: contain; border-radius: 15px; }
+        .produto-cat-label { font-size: 0.6rem; text-transform: uppercase; color: #44749d; background: #eef2f7; padding: 2px 8px; border-radius: 10px; margin-top: 8px; font-weight: bold; align-self: center; }
+        .produto-nome { font-size: 0.85rem; font-weight: 600; margin: 5px 0; height: 35px; overflow: hidden; }
+        .produto-desc-label { font-size: 0.7rem; color: #777; margin-bottom: 8px; height: 30px; overflow: hidden; line-height: 1.2; }
+        .produto-preco { color: #44749d; font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 4px; text-decoration: none; padding: 10px; border-radius: 12px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; }
+        .btn-ml { background: #FFE600; color: #2D3277; }
+        .btn-hotmart { background: #FF0000; color: white; }
+        .btn-magalu { background: #0088F7; color: white; }
+        .btn-amazon { background: #000000; color: #00A8E1; }
+        .btn-shein { background: #000000; color: white; }
+        .btn-shopee { background: #F76404; color: white; }
+        .btn-temu { background: #C00000; color: white; }
+        .btn-aliexpress { background: #F7254E; color: white; }
+        .btn-monetizze { background: #004576; color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
+
+        .btn-like {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin: 5px auto 10px;
+            transition: 0.3s;
+            color: #44749d;
+            font-weight: bold;
+        }
+        .btn-like:active { transform: scale(0.9); }
+        .like-icon { color: #e74c3c; font-size: 1.1rem; }
+
+        #btnVoltarTopo { position: fixed; bottom: 20px; right: 20px; background: #44749d; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; display: none; z-index: 1000; cursor: pointer; }
+        .subtítulo-container { height: 35px; overflow: hidden; margin: 10px 0; }
+        .subtítulo-rotativo { color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; font-weight: bold; animation: rotacionar 15s infinite; }
+        @keyframes rotacionar {
+            0%, 20%   { transform: translateY(0); }
+            25%, 45%  { transform: translateY(-35px); }
+            50%, 70%  { transform: translateY(-70px); }
+            75%, 95%  { transform: translateY(-105px); }
+            100%      { transform: translateY(0); } }
+
+        .btn-anuncie-linkup {
+            position: fixed !important; bottom: 110px !important; right: 20px !important; left: auto !important;
+            background-color: #ff8c00 !important; color: white !important;
+            width: 85px !important; height: 85px !important; border-radius: 50% !important;
+            display: flex !important; align-items: center !important; justify-content: center !important;
+            font-size: 13px !important; font-weight: bold !important; text-align: center !important;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.4) !important; cursor: pointer !important;
+            z-index: 9999 !important; line-height: 1.1 !important; border: 2px solid white !important;
+        }
+        .modal-linkup {
+            display:none; position: fixed; top: 0; left: 0; transform: none;
+            width: 100%; height: 100%;
+            max-width: none; background: white; border-radius: 0; z-index: 10000;
+            box-shadow: none; overflow-y: auto; max-height: 100vh;
+            font-family: sans-serif; padding: 20px; box-sizing: border-box;
+        }
+        .overlay-linkup {
+            display:none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.7); z-index: 9998;
+        }
+        .input-linkup { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        .btn-plano {
+            width:100%; border:2px solid #eee; padding:15px; margin-bottom:12px;
+            border-radius:12px; background:white; cursor:pointer; text-align: left;
+            display: flex; align-items: center; gap: 10px; justify-content: space-between;
+        }
+
+        .secao-depoimentos { text-align: left; margin: 20px 0; background: #fff; padding: 15px; border-radius: 15px; border: 1px solid #eee; }
+        .depoimento-item { border-bottom: 1px solid #f1f1f1; padding: 10px 0; }
+        .depoimento-item:last-child { border: none; }
+        .depoimento-meta { font-size: 13px; font-weight: bold; color: #44749d; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        .depoimento-texto { font-size: 14px; color: #555; font-style: italic; line-height: 1.4; }
+        .btn-dar-depoimento { background: #f39c12; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        .modal-depoimento-gustavo { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:12000; align-items:center; justify-content:center; }
+        .modal-depoimento-box { background:white; width:90%; max-width:400px; padding:20px; border-radius:20px; text-align:center; }
+        .star-rating { font-size: 30px; margin: 15px 0; cursor: pointer; color: #ddd; }
+        .star-rating .selected { color: #f39c12; }
+
+        /* ============================================================ */
+        /* ZOOM DA IMAGEM E VÍDEO (ESTILO PADRÃO GUSTAVO) */
+        /* ============================================================ */
+        .gu-zoom-modal {
+            display: none;
+            position: fixed;
+            z-index: 20000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            align-items: center;
+            justify-content: center;
+        }
+        .gu-zoom-img {
+            max-width: 95%;
+            max-height: 90%;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        /* Ajuste para o vídeo em zoom */
+        .gu-zoom-video-container {
+            width: 95%;
+            height: 80%;
+            max-width: 800px;
+        }
+        .gu-zoom-fechar {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 21000;
+        }
+    </style>
+</head>
+<body>
+
+<header id="topo">
+    <div class="titulo-app">🧑🏾 Link Up Silveiras 👩🏻</div>
+    <div class="subtítulo-container">
+       <div class="subtítulo-rotativo">Autônomos de Silveiras 👩🏻🧑🏾</div>
+       <div class="subtítulo-rotativo">Bueno Software 👨🏻</div>
+       <div class="subtítulo-rotativo">Lojas Link App 🛒🛍️</div>
+       <div class="subtítulo-rotativo">A maior loja de afiliados do Brasil 🛒🛍️</div>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+        <button onclick="compartilharLoja()" style="background: #25D366; color: white; border: none; border-radius: 12px; padding: 10px 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; height: 42px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18"> Compartilhar App
+        </button>
+        <button onclick="irParaGrupo()" style="background: white; color: #44749d; border: none; border-radius: 12px; padding: 10px 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; height: 42px;">
+            Ver Mais Lojas
+        </button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="banner-container">
+        <div class="banner-wrapper" id="bannerApp"></div>
+    </div>
+    <div class="categorias" id="grupoCategorias">
+        <button class="cat-btn active" onclick="filtrar('todos', this)"> ✨ Todos ✨</button>
+        <button class="cat-btn" onclick="filtrar('em-destaque', this)">🔥 Em Destaque 🔥</button>
+        <button class="cat-btn" onclick="filtrar('transporte', this)">🚕 Transporte 🚚</button>
+        <button class="cat-btn" onclick="filtrar('manutenção', this)">🔨 Manutenção 🧹</button>
+        <button class="cat-btn" onclick="filtrar('alimentação', this)">👩🏻‍🍳 Alimentação 🍰</button>
+        <button class="cat-btn" onclick="filtrar('estética', this)">👄 Estética 💄</button>
+        <button class="cat-btn" onclick="filtrar('cuidados', this)">👩🏻‍⚕️ Cuidados 👴🏻</button>
+        <button class="cat-btn" onclick="filtrar('diversos', this)">👨🏻‍🏫 Diversos ✂️</button>
+    </div>
+    <input type="text" id="inputBusca" class="busca-input" placeholder="🔍 Autônomo, Serviço ou Cidade..." onkeyup="executarBusca()">
+    <div id="vitrine" class="vitrine"></div>
+</div>
+
+<button id="btnVoltarTopo" onclick="voltarAoTopo()">↑</button>
+
+<div class="btn-anuncie-linkup" onclick="abrirCadastro()">ANUNCIE<br>AQUI</div>
+<div id="overlay" class="overlay-linkup" onclick="fecharModal()"></div>
+
+<div id="modalCadastro" class="modal-linkup">
+    <div onclick="fecharModal()" style="position: absolute; top: 10px; right: 15px; font-size: 26px; color: #999; cursor: pointer; font-weight: bold;">&times;</div>
+
+    <div id="etapa1" style="text-align: center; padding-top: 15px;">
+        <h2 style="color: #44749d;">Deseja oferecer seus serviços no aplicativo? 💼</h2>
+        <button onclick="irParaEtapa(2)" style="width: 100%; background: #44749d; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 10px;">SIM, QUERO ANUNCIAR</button>
+        <button onclick="fecharModal()" style="width: 100%; background: #eee; color: #666; border: none; padding: 10px; border-radius: 10px; cursor: pointer;">NÃO, SOU APENAS CLIENTE</button>
+    </div>
+
+    <div id="etapa2" style="display:none; padding-top: 10px;">
+        <h3 style="color: #44749d;">Cadastro Profissional 📝</h3>
+        <div style="background: #f9f9f9; padding: 8px; font-size: 11px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            Autorizo uso de imagem/dados e aviso se mudar de WhatsApp.
+        </div>
+        <label style="font-size: 13px; margin-bottom: 10px; display: block;"><input type="checkbox" id="aceitoTermos"> Eu aceito os termos</label>
+       
+        <input type="text" id="nome" placeholder="👤 Nome Completo" class="input-linkup">
+        <input type="text" id="apelido" placeholder="🏷️ Apelido/Nome do Negócio" class="input-linkup">
+        <input type="text" id="funcao" placeholder="🛠️ O que você faz?" class="input-linkup">
+        <input type="tel" id="whatsapp" placeholder="📱 WhatsApp com DDD" class="input-linkup">
+        <input type="text" id="bairro" placeholder="📍 Seu Bairro/Cidade" class="input-linkup">
+       
+        <button onclick="irParaEtapa(3)" style="width: 100%; background: #ff8c00; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">VER PLANOS ➡️</button>
+    </div>
+
+    <div id="etapa3" style="display:none; padding-top: 10px;">
+        <h3 style="text-align:center; color: #44749d;">Escolha seu Plano ✨</h3>
+        <div class="btn-plano" onclick="finalizar('Bronze')" style="border-color: #cd7f32;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size: 24px;">🥉</span>
+                <div><b>BRONZE</b><br><small>Card Padrão</small></div>
+            </div>
+            <div style="font-weight:bold; color:#cd7f32;">R$ 2,00</div>
+        </div>
+        <div class="btn-plano" onclick="finalizar('Prata')" style="border-color: #c0c0c0;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size: 24px;">🥈</span>
+                <div><b>PRATA 🔥</b><br><small>Faixa "Em Alta"</small></div>
+            </div>
+            <div style="font-weight:bold; color:#666;">R$ 5,00</div>
+        </div>
+        <div class="btn-plano" onclick="finalizar('Ouro')" style="border-color: #ffd700; background: #fffdf0;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size: 24px;">🥇</span>
+                <div><b>OURO 💎</b><br><small>Destaque Total</small></div>
+            </div>
+            <div style="font-weight:bold; color:#b8860b;">R$ 10,00</div>
+        </div>
+        <p style="font-size: 11px; color: #999; text-align: center;">*Pagamento mensal via PIX após o envio.</p>
+        <button onclick="irParaEtapa(2)" style="background:none; border:none; color:#999; cursor:pointer; width:100%; font-size:12px;">← Voltar</button>
+    </div>
+</div>
+
+<div id="modalInfo" class="modal-detalhes-linkup">
+    <div class="modal-detalhes-content">
+        <span class="fechar-detalhes" onclick="fecharModalInfo()">❌</span>
+        <div id="conteudoDetalhes"></div>
+    </div>
+</div>
+
+<div id="modalDepoimento" class="modal-depoimento-gustavo">
+    <div class="modal-depoimento-box">
+        <h3 style="color:#44749d; margin:0;">O que você achou? ⭐</h3>
+        <div class="star-rating" id="starsContainer">
+            <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
+        </div>
+        <input type="text" id="depoimentoNome" placeholder="Seu nome..." class="input-linkup">
+        <textarea id="depoimentoTexto" placeholder="Sua opinião (máx 300 caracteres)..." maxlength="300" class="input-linkup" style="height:80px; resize:none;"></textarea>
+       
+        <p style="font-size: 13px; color: #555; margin-bottom: 10px;">Envie também um vídeo depoimento pelo WhatsApp após a sua avaliação</p>
+       
+        <button onclick="enviarDepoimentoZap()" class="btn-dar-depoimento">ENVIAR FEEDBACK NO WHATSAPP</button>
+        <button onclick="fecharModalDepoimento()" style="background:none; border:none; color:#999; margin-top:10px; cursor:pointer;">Cancelar</button>
+    </div>
+</div>
+
+<div id="guZoomModal" class="gu-zoom-modal" onclick="fecharZoomGustavo()">
+    <span class="gu-zoom-fechar">&times;</span>
+    <img class="gu-zoom-img" id="guZoomImg">
+</div>
+
+<div id="guZoomVideoModal" class="gu-zoom-modal" onclick="fecharZoomVideoGustavo()">
+    <span class="gu-zoom-fechar">&times;</span>
+    <div class="gu-zoom-video-container" id="guZoomVideoContent">
+        </div>
+</div>
+
+<div id="gu-instalar" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#f39c12; color:white; padding:20px; text-align:center; z-index:99999; font-family:sans-serif; border-radius:15px 15px 0 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.3);">
+    <strong style="display:block; margin-bottom:10px; font-size:16px;">🚀 NÃO PERCA O ACESSO!</strong>
+    <p style="margin:0 0 15px 0; font-size:14px;">Adicione o LinkUp à sua tela inicial para entrar sempre que precisar!</p>
+    <button onclick="avisarComoInstalar()" style="background:white; color:#f39c12; border:none; padding:12px 25px; font-weight:bold; border-radius:8px; cursor:pointer; width:100%; margin-bottom:10px;">COMO INSTALAR (Passo a Passo)</button>
+    <button onclick="ignorarAviso()" style="background:transparent; color:white; border:1px solid white; padding:8px; font-size:12px; border-radius:5px; cursor:pointer; width:100%; opacity:0.8;">Já instalei / Não perguntar mais</button>
+</div>
+
+<script>
+    const modoApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    const jaIgnorou = localStorage.getItem('linkup_pwa_ignore');
+
+    if (!modoApp && jaIgnorou !== 'true') {
+        setTimeout(() => {
+            if(document.getElementById('gu-instalar')) {
+                document.getElementById('gu-instalar').style.display = 'block';
+            }
+        }, 2000);
+    }
+
+    function avisarComoInstalar() {
+        alert("É fácil!\n\n1. Clique nos 3 PONTINHOS no canto superior direito.\n2. Escolha 'ADICIONAR À TELA INICIAL'.\n3. Pronto!");
+    }
+
+    function ignorarAviso() {
+        localStorage.setItem('linkup_pwa_ignore', 'true');
+        document.getElementById('gu-instalar').style.display = 'none';
+    }
+
+    let todosOsProdutos = [];
+    let produtosEmbaralhados = [];
+    let categoriaAtual = 'todos';
+    let currentRating = 0;
+    let profSelecionadoParaDepoimento = "";
+
+    // ID atualizado da nova planilha que você compartilhou
+const sheetId = '1v-hpbGtP4ayKlgkUbQU2ZvihMD8dNuloKCR8c5WiZgE';
+
+// Mantém a estrutura de consulta em JSON (gviz/tq) para a aba 'loja' e intervalo A:AR
+const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=loja&range=A:AR`;
+
+// URL da API de Likes - TOTALMENTE PRESERVADA (não foi alterada)
+const urlAPI_Likes = 'https://script.google.com/macros/s/AKfycbwFNYMY9GHydkzFddFBq8G0L6F_R7JCPVXHOTlkwwvyaYGR9R8-1RWdd2qDpzR14qqF/exec';
+
+ 
+ 
+
+
+    const segmentosLojas = [
+        { nome: "Lojas Link App: A maior loja de afiliados do Brasil", emoji: "🛒", link: "" },
+        { nome: "Artigos de Recém Nascido 0 a 1", emoji: "👶", link: "https://gustavobueno301412-bit.github.io/loja-link-app-baby/index.html" },
+        { nome: "Artigos Pet em Geral", emoji: "🐾", link: "" },
+        { nome: "Artigos Esportivos", emoji: "⚽", link: "" },
+        { nome: "Artigos de Informática", emoji: "💻", link: "" },
+        { nome: "Moda Feminina", emoji: "👗", link: "" },
+        { nome: "Moda Masculina", emoji: "👕", link: "" },
+        { nome: "Celulares e Acessórios", emoji: "📱", link: "" },
+        { nome: "Cama, Mesa e Banho", emoji: "🛏️", link: "" },
+        { nome: "Moda infantil 1 a 10 anos", emoji: "👦", link: "" },
+        { nome: "Moda Juvenil 11 a 17 anos", emoji: "👩‍🦰", link: "" },
+        { nome: "Moda Plus Size e King Size Masculino", emoji: "👕", link: "" },
+        { nome: "Moda Plus Size e King Size Feminina", emoji: "👗", link: "" },
+        { nome: "Camping, Pesca, Piscina e Praia", emoji: "🏕️", link: "" },
+        { nome: "Cosméticos e Perfumaria", emoji: "💄", link: "" },
+        { nome: "Papelaria e Escritório", emoji: "📝", link: "" },
+        { nome: "Peças e Acessórios de Carro", emoji: "🚗", link: "" },
+        { nome: "Peças e Acessórios de Moto", emoji: "🏍️", link: "" },
+        { nome: "Eletrodomésticos em Geral", emoji: "📺", link: "" },
+        { nome: "Móveis e Decoração", emoji: "🛋️", link: "" },
+        { nome: "Instrumentos Musicais", emoji: "🎸", link: "" },
+        { nome: "Ferramentas, Casa e Construção", emoji: "🛠️", link: "" },
+        { nome: "Consoles, Jogos e Acessórios", emoji: "🎮", link: "" },
+        { nome: "Conteúdo e Entretenimento Nerd", emoji: "🤓", link: "" },
+        { nome: "Utilidades Domésticas", emoji: "🍳", link: "" },
+        { nome: "Moda Skate", emoji: "🛹", link: "" },
+        { nome: "Livros Físicos", emoji: "📚", link: "" },
+        { nome: "Brinquedos", emoji: "🧸", link: "" },
+        { nome: "Plantas, Jardim e Paisagismo", emoji: "🌻", link: "" },
+        { nome: "Malas e Viagem", emoji: "🧳", link: "" },
+        { nome: "Artigos para Festa", emoji: "🥳", link: "" },
+        { nome: "Comidas e Bebidas", emoji: "🍕", link: "" },
+        { nome: "Artigos Hospitalares", emoji: "🏥", link: "" },
+        { nome: "Tecnologia e Energia Solar", emoji: "☀️", link: "" },
+        { nome: "Segurança e Monitoramento", emoji: "🛡️", link: "" },
+        { nome: "Equipamentos para o campo", emoji: "🚜", link: "" },
+        { nome: "Melhor Idade Masculino", emoji: "👴", link: "" },
+        { nome: "Melhor Idade Feminino", emoji: "👵", link: "" },
+        { nome: "Jóias e Semi-Jóias", emoji: "💎", link: "" }
+    ];
+
+    window.onscroll = function() {
+        const btn = document.getElementById("btnVoltarTopo");
+        if(btn) btn.style.display = (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) ? "block" : "none";
+    };
+
+    function voltarAoTopo() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+
+    async function carregarDados() {
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const jsonData = JSON.parse(text.substring(47).slice(0, -2));
+            let dadosDaPlanilha = jsonData.table.rows;
+
+            if (dadosDaPlanilha && dadosDaPlanilha.length > 0) {
+                let itemFixo = dadosDaPlanilha[0];
+                let resto = dadosDaPlanilha.slice(1);
+                resto.sort(() => Math.random() - 0.5);
+                produtosEmbaralhados = [itemFixo, ...resto];
+            }
+            configurarBanners();
+            mostrarProdutos();
+        } catch (error) { console.error("Erro:", error); }
+    }
+
+    function configurarBanners() {
+        const bannerWrapper = document.getElementById('bannerApp');
+        if (!bannerWrapper) return;
+        let htmlBanners = '';
+        let count = 0;
+
+        produtosEmbaralhados.forEach((row) => {
+            const imgBanner = (row.c && row.c[2] && row.c[2].v) ? row.c[2].v : '';
+            if (imgBanner && imgBanner.includes('http')) {
+                htmlBanners += `<div onclick="prepararDetalhes(${produtosEmbaralhados.indexOf(row)})" style="min-width: 100%; height: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    <img src="${imgBanner}" class="banner-img">
+                </div>`;
+                count++;
+            }
+        });
+
+        bannerWrapper.innerHTML = htmlBanners;
+        if (count > 1) {
+            let index = 0;
+            if (window.bannerInterval) clearInterval(window.bannerInterval);
+            window.bannerInterval = setInterval(() => {
+                index = (index + 1) % count;
+                bannerWrapper.style.transform = 'translateX(' + (index * -100) + '%)';
+            }, 4000);
+        }
+    }
+
+    function prepararDetalhes(index) {
+        const row = produtosEmbaralhados[index];
+        const nome = row.c[3].v;
+        const desc = (row.c[10] && row.c[10].v) ? row.c[10].v : '';
+        const foto = row.c[8] ? row.c[8].v : '';
+        const link = row.c[9] ? row.c[9].v : '#';
+        const cat = row.c[5] ? row.c[5].v : '';
+        const segs = (row.c[13] && row.c[13].v) ? row.c[13].v : '0';
+        const uSeg = (row.c[14] && row.c[14].v) ? row.c[14].v : 'Nenhum';
+        const seloQ = (row.c[12] && row.c[12].v) ? row.c[12].v : 'não';
+       
+        const fotosExtras = [];
+        for(let i=15; i<=24; i++) { if(row.c[i] && row.c[i].v) fotosExtras.push(row.c[i].v); }
+       
+        const videosExtras = [];
+        for(let i=25; i<=28; i++) { if(row.c[i] && row.c[i].v) videosExtras.push(row.c[i].v); }
+
+        const videosDepoimentos = [];
+        for(let i=40; i<=43; i++) { if(row.c[i] && row.c[i].v) videosDepoimentos.push(row.c[i].v); }
+
+        const deps = [];
+        for(let i=30; i<=39; i++) {
+            if(row.c[i] && row.c[i].v && row.c[i].v.trim() !== "") {
+                deps.push({ texto: row.c[i].v, autor: "Cliente Verificado" });
+            }
+        }
+       
+        abrirDetalhes(nome, desc, foto, link, cat, segs, uSeg, seloQ, fotosExtras, videosExtras, deps, videosDepoimentos);
+    }
+
+    function mostrarProdutos(termo = '') {
+        let html = '';
+        const termoBusca = termo.toLowerCase().trim();
+        produtosEmbaralhados.forEach((row, index) => {
+            if (!row.c[3] || row.c[3].v === "Nome") return;
+           
+            const nome = row.c[3].v;
+            const categoria = row.c[5] ? row.c[5].v : '';
+            const destaque = row.c[6] ? row.c[6].v.toLowerCase() : '';
+            const tipo = row.c[7] ? row.c[7].v.toLowerCase() : '';
+            const preco = row.c[4] ? (row.c[4].f || row.c[4].v).toString() : 'Combine';
+            const likesCount = row.c[0] ? (row.c[0].v || 0) : 0;
+            const foto = row.c[8] ? row.c[8].v : '';
+            const link = row.c[9] ? row.c[9].v : '#';
+            const desc = (row.c[10] && row.c[10].v) ? row.c[10].v : '';
+
+            if ((categoriaAtual === 'todos' || categoria.toLowerCase().trim() === categoriaAtual || (categoriaAtual === 'em-destaque' && destaque === 'sim')) &&
+                (nome.toLowerCase().includes(termoBusca) || tipo.includes(termoBusca))) {
+               
+                let btnClass = 'btn-ml', btnTexto = `🛒 MERCADO LIVRE 🤝🏻`;
+                if(tipo.includes('hotmart')) { btnClass = 'btn-hotmart'; btnTexto = `🛒 HOTMART 🔥`; }
+                else if(tipo.includes('magalu')) { btnClass = 'btn-magalu'; btnTexto = `🛒 MAGALU 🙋🏻‍♂️`; }
+                else if(tipo.includes('amazon')) { btnClass = 'btn-amazon'; btnTexto = `🛒 AMAZON 📦`; }
+                else if(tipo.includes('shopee')) { btnClass = 'btn-shopee'; btnTexto = `🛒 SHOPEE 🛍️`; }
+                else if(tipo.includes('whatsapp')) { btnClass = 'btn-whatsapp'; btnTexto = `📞 WHATSAPP 📱`; }
+               
+                html += `<div class="produto-card" onclick="prepararDetalhes(${index})" style="cursor:pointer;">
+                    ${destaque === 'sim' ? '<div class="selo-destaque">EM DESTAQUE 🔥</div>' : ''}
+                    <button class="btn-ws-card" onclick="event.stopPropagation(); compartilharProduto('${nome}', '${link}')"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></button>
+                    <img src="${foto}" class="img-produto" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="produto-cat-label">${categoria}</div>
+                    <div class="produto-nome">${nome}</div>
+                   
+                    <button class="btn-like" onclick="event.stopPropagation(); curtirProfissional('${nome}', this)">
+                        <span class="like-icon">❤️</span> <span class="num-likes">${likesCount}</span>
+                    </button>
+
+                    <div class="produto-desc-label">${desc}</div>
+                    <div class="produto-preco">${preco}</div>
+                    <a href="${link}" target="_blank" onclick="event.stopPropagation();" class="btn ${btnClass}">${btnTexto}</a>
+                </div>`;
+            }
+        });
+        document.getElementById('vitrine').innerHTML = html;
+    }
+
+    async function curtirProfissional(nome, botao) {
+        const spanLikes = botao.querySelector('.num-likes');
+        botao.style.background = "#ffebee";
+        try {
+            await fetch(urlAPI_Likes, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ "nome": nome })
+            });
+            let valorAtual = parseInt(spanLikes.innerText) || 0;
+            spanLikes.innerText = valorAtual + 1;
+        } catch (e) { console.error("Erro no like:", e); }
+    }
+
+    function formatarLinkYoutube(url) {
+        if (!url) return "";
+        let id = "";
+        if (url.includes("shorts/")) {
+            id = url.split("shorts/")[1].split("?")[0].split("&")[0];
+        } else if (url.includes("watch?v=")) {
+            id = url.split("v=")[1].split("&")[0];
+        } else if (url.includes("youtu.be/")) {
+            id = url.split("youtu.be/")[1].split("?")[0].split("&")[0];
+        }
+        return id ? `https://www.youtube.com/embed/${id}?rel=0` : url;
+    }
+
+    function abrirDetalhes(nome, textoE, imagemC, linkJ, categoria, segs, uSeg, seloQ, fotosExtras = [], videosExtras = [], depoimentos = [], videosDepoimentos = []) {
+        profSelecionadoParaDepoimento = nome;
+        const modal = document.getElementById('modalInfo');
+        const conteudo = document.getElementById('conteudoDetalhes');
+       
+        const msgSeguir = encodeURIComponent(`Olá Gustavo! Estou seguindo o(a) profissional: ${nome}. Adiciona +1 seguidor para ele(a) na planilha! 🚀`);
+        const linkSeguir = `https://wa.me/5512992448264?text=${msgSeguir}`;
+
+        let htmlSelo = (seloQ.toLowerCase() === "sim") ? `
+            <div style="display: inline-flex; align-items: center; background: linear-gradient(135deg, #FFD700, #FFA500); color: #fff; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 12px; margin: 10px 0; box-shadow: 0px 2px 4px rgba(0,0,0,0.2); border: 1px solid #DAA520;">
+                <span style="margin-right: 5px;">🌟</span> PARCEIRO DE QUALIDADE
+            </div>` : "";
+
+        let htmlGradeFotos = "";
+        if (fotosExtras.length > 0) {
+            htmlGradeFotos = `<div class="titulo-grade-fotos">🔥 TRABALHOS REALIZADOS 🔥</div><div class="grade-fotos-gustavo">`;
+            fotosExtras.forEach(f => { if(f && f.includes('http')) htmlGradeFotos += `<img src="${f}" onclick="abrirZoomGustavo('${f}')" onerror="this.style.display='none'">`; });
+            htmlGradeFotos += `</div>`;
+        }
+
+        let htmlGradeVideos = "";
+        if (videosExtras.length > 0) {
+            htmlGradeVideos = `<div class="titulo-grade-fotos">🎥 VÍDEOS E DEMONSTRAÇÕES 🎥</div><div class="grade-fotos-gustavo">`;
+            videosExtras.forEach(v => {
+                if(v && v.includes('http')) {
+                    let embedUrl = formatarLinkYoutube(v);
+                    // NOVO: Adicionado onclick para abrir o zoom do vídeo
+                    htmlGradeVideos += `
+                    <div style="position:relative;">
+                        <iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
+                        <div onclick="abrirZoomVideoGustavo('${embedUrl}')" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; background:transparent;"></div>
+                    </div>`;
+                }
+            });
+            htmlGradeVideos += `</div>`;
+        }
+
+        let htmlGradeVideosDepo = "";
+        if (videosDepoimentos.length > 0) {
+            htmlGradeVideosDepo = `<div class="titulo-grade-fotos">🎥 VÍDEOS DEPOIMENTOS 🎥</div><div class="grade-fotos-gustavo">`;
+            videosDepoimentos.forEach(v => {
+                if(v && v.includes('http')) {
+                    let embedUrl = formatarLinkYoutube(v);
+                    htmlGradeVideosDepo += `
+                        <div class="video-depo-box">
+                            <iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
+                        </div>`;
+                }
+            });
+            htmlGradeVideosDepo += `</div>`;
+        }
+
+        let htmlDepoimentos = `<div class="secao-depoimentos"><h3 style="color:#44749d;">Avaliações de Clientes ⭐</h3>`;
+        if(depoimentos.length > 0) {
+            depoimentos.forEach(d => {
+                htmlDepoimentos += `
+                <div class="depoimento-item">
+                    <div class="depoimento-meta">
+                        <span>👤 ${d.autor}</span>
+                        <span style="color: #f39c12;">★★★★★</span>
+                    </div>
+                    <div class="depoimento-texto">"${d.texto}"</div>
+                </div>`;
+            });
+        } else {
+            htmlDepoimentos += `<p style="font-size:12px; color:#999;">Ainda não há avaliações. Seja o primeiro!</p>`;
+        }
+        htmlDepoimentos += `<button class="btn-dar-depoimento" onclick="abrirModalDepoimento()">AVALIAR ESTE PROFISSIONAL</button></div>`;
+
+        conteudo.innerHTML = `
+            <img src="${imagemC}" onclick="abrirZoomGustavo('${imagemC}')" style="width: 100%; max-height: 250px; border-radius: 20px; object-fit: contain; margin-bottom: 15px; cursor: pointer;">
+            <h2 style="color: #44749d; margin: 0;">${nome}</h2>
+            <div style="text-align: left; margin-top: 15px; font-size: 17px; color: #333; white-space: pre-wrap; line-height: 1.5;">${textoE}</div>
+            ${htmlSelo}
+            <div style="margin: 10px 0;"><span style="background: #eef2f7; padding: 5px 12px; border-radius: 10px; color: #44749d; font-weight: bold; font-size: 14px;">✨ ${categoria}</span></div>
+            <div style="background: #f8f9fa; border: 1px solid #eee; padding: 10px; border-radius: 15px; margin: 15px 0; display: flex; justify-content: space-around; align-items: center;">
+                <div><div style="font-size: 12px; color: #666;">SEGUIDORES</div><div style="font-size: 20px; font-weight: bold; color: #44749d;">👤 ${segs}</div></div>
+                <div style="border-left: 1px solid #ddd; height: 30px;"></div>
+                <div><div style="font-size: 12px; color: #666;">ÚLTIMO SEGUIDOR</div><div style="font-size: 14px; font-weight: bold; color: #333;">⭐ ${uSeg}</div></div>
+            </div>
+            ${htmlGradeFotos}
+            ${htmlGradeVideos}
+            ${htmlDepoimentos}
+            ${htmlGradeVideosDepo}
+            <button onclick="window.open('${linkSeguir}', '_blank')" class="btn-seguir-modal">➕ SEGUIR PROFISSIONAL</button>
+            <a href="${linkJ}" target="_blank" class="btn-zap-modal"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="22"> FALAR NO WHATSAPP</a>
+        `;
+        modal.style.display = 'flex';
+    }
+
+    // ============================================================
+    // JS DE ZOOM (IMAGEM E VÍDEO)
+    // ============================================================
+    function abrirZoomGustavo(src) {
+        const modalZoom = document.getElementById('guZoomModal');
+        const imgZoom = document.getElementById('guZoomImg');
+        imgZoom.src = src;
+        modalZoom.style.display = 'flex';
+    }
+
+    function fecharZoomGustavo() {
+        document.getElementById('guZoomModal').style.display = 'none';
+    }
+
+    // NOVO: Funções para Zoom do Vídeo de Demonstração
+    function abrirZoomVideoGustavo(url) {
+        const modalVideo = document.getElementById('guZoomVideoModal');
+        const contentVideo = document.getElementById('guZoomVideoContent');
+        contentVideo.innerHTML = `<iframe src="${url}?autoplay=1" style="width:100%; height:100%; border-radius:10px;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+        modalVideo.style.display = 'flex';
+    }
+
+    function fecharZoomVideoGustavo() {
+        const modalVideo = document.getElementById('guZoomVideoModal');
+        const contentVideo = document.getElementById('guZoomVideoContent');
+        contentVideo.innerHTML = ""; // Limpa o iframe para parar o som
+        modalVideo.style.display = 'none';
+    }
+
+    function abrirModalDepoimento() { document.getElementById('modalDepoimento').style.display='flex'; }
+    function fecharModalDepoimento() { document.getElementById('modalDepoimento').style.display='none'; }
+    function setRating(n) {
+        currentRating = n;
+        let stars = document.querySelectorAll('.star-rating span');
+        stars.forEach((s, idx) => {
+            if(idx < n) s.classList.add('selected');
+            else s.classList.remove('selected');
+        });
+    }
+    function enviarDepoimentoZap() {
+        let nomeC = document.getElementById('depoimentoNome').value;
+        let textoC = document.getElementById('depoimentoTexto').value;
+        if(!nomeC || !textoC || currentRating === 0) return alert("Preencha todos os campos.");
+       
+        let msg = `Olá Gustavo! Novo depoimento para: ${profSelecionadoParaDepoimento}\nNota: ${currentRating} ⭐\nCliente: ${nomeC}\nDepoimento: ${textoC}`;
+        window.open(`https://wa.me/5512992448264?text=${encodeURIComponent(msg)}`);
+        fecharModalDepoimento();
+    }
+
+    function fecharModalInfo() {
+        document.getElementById('modalInfo').style.display = 'none';
+        document.getElementById('conteudoDetalhes').innerHTML = "";
+    }
+
+    function filtrar(cat, btn) {
+        categoriaAtual = cat;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+        mostrarProdutos();
+    }
+
+    function executarBusca() { mostrarProdutos(document.getElementById('inputBusca').value); }
+
+    async function compartilharProduto(nome, link) {
+        const texto = `Olha o contato do(a) ${nome} no Link-Up! 🚀`;
+        if (navigator.share) {
+            try { await navigator.share({ title: 'Link-Up', text: texto, url: link }); } catch (err) {}
+        } else {
+            navigator.clipboard.writeText(`${texto} ${link}`);
+            alert("Copiado! ✅");
+        }
+    }
+
+    async function compartilharLoja() {
+        const urlLoja = window.location.href;
+        const texto = 'App dos melhores profissionais de Silveiras! 🛠️🚀';
+        if (navigator.share) {
+            try { await navigator.share({ title: 'Link-Up App', text: texto, url: urlLoja }); } catch (err) {}
+        } else {
+            navigator.clipboard.writeText(`${texto} ${urlLoja}`);
+            alert("Link copiado! ✅");
+        }
+    }
+
+    function irParaGrupo() {
+        let modal = document.createElement('div');
+        modal.id = "meuModalFlutuante";
+        modal.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; display:flex; justify-content:center; align-items:center;";
+        let conteudo = document.createElement('div');
+        conteudo.style = "background:#fff; width:90%; max-width:400px; max-height:80vh; overflow-y:auto; border-radius:15px; padding:20px; position:relative; font-family: sans-serif;";
+        let htmlLista = `<h3 style="text-align:center; margin-bottom:20px;">Escolha uma Loja</h3><button onclick="document.getElementById('meuModalFlutuante').remove()" style="position:absolute; top:10px; right:10px; border:none; background:none; font-size:20px; cursor:pointer;">✕</button>`;
+        segmentosLojas.forEach((seg) => {
+            let acao = (seg.link && seg.link !== "") ? `<a href="${seg.link}" target="_blank" style="background:#228B22; color:white; padding:6px 12px; border-radius:8px; text-decoration:none; font-size:12px; font-weight:bold;">Entrar</a>` : `<span style="color:#bbb; font-size:12px; font-style:italic;">Em breve 🚀</span>`;
+            htmlLista += `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid #eee;"><span style="font-size:14px;">${seg.emoji} ${seg.nome}</span>${acao}</div>`;
+        });
+        conteudo.innerHTML = htmlLista;
+        modal.appendChild(conteudo);
+        document.body.appendChild(modal);
+    }
+
+    function abrirCadastro() { document.getElementById('modalCadastro').style.display='block'; document.getElementById('overlay').style.display='block'; }
+    function fecharModal() { document.getElementById('modalCadastro').style.display='none'; document.getElementById('overlay').style.display='none'; }
+    function irParaEtapa(n) {
+        if(n==3 && !document.getElementById('aceitoTermos').checked) return alert("Aceite os termos.");
+        document.getElementById('etapa1').style.display='none'; document.getElementById('etapa2').style.display='none'; document.getElementById('etapa3').style.display='none';
+        document.getElementById('etapa'+n).style.display='block';
+    }
+    function finalizar(plano) {
+        let msg = `Olá Gustavo! Novo cadastro.\n🏆 Plano: ${plano}\n👤 Nome: ${document.getElementById('nome').value}\n🏷️ Apelido: ${document.getElementById('apelido').value}\n🛠️ Serviço: ${document.getElementById('funcao').value}\n📱 Zap: ${document.getElementById('whatsapp').value}\n📍 Bairro: ${document.getElementById('bairro').value}`;
+        window.open(`https://wa.me/5512992448264?text=${encodeURIComponent(msg)}`);
+        fecharModal();
+    }
+
+    carregarDados();
+</script>
+</body>
+</html>
+
+ 
